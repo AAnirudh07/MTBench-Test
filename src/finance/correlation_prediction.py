@@ -19,7 +19,7 @@ import os
 from tqdm import tqdm
 
 from meta_prompt import finance_correlation_metaprompt_generation
-from ..utils import save_to_json, calculate_correlation_acc
+from utils import save_to_json, calculate_correlation_acc
 from models.model_factory import ModelFactory
 
 parser = argparse.ArgumentParser()
