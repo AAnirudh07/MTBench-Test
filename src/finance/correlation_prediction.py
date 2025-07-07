@@ -1,3 +1,14 @@
+"""
+To run the code:
+
+python src/finance/correlation_prediction.py \
+--dataset_path /path/to/dataset.json \
+--save_path /path/to/save/results \
+--model_type deepseek or llama \
+--model author/model \
+--setting short or longs
+"""
+
 import argparse
 from pathlib import Path
 import json
