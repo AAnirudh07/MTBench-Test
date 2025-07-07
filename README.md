@@ -13,6 +13,19 @@
     A: The authors created a new test suite to benchmark how LLMs understand and reason when given both time‑series data (like stock prices or temperature readings) and the corresponding textual reports (financial news or weather summaries). They want to see if models can answer questions by jointly looking at numbers and words, rather than treating each separately. This is important as real-world events in text can influence these numerical trends and vice versa.
 </details>
 
+<details>
+    <summary>2. How was it done before their work, and what were the limits of prior work?</summary>
+    A: 
+    <ul>
+        <li>Many benchmarks focused only on numerical forecasting but ignored any accompanying text.</li>
+        <li>Other datasets (e.g. FinanceBench, FinDABench) tested models on textual financial questions or news summarization without using the underlying numerical data.</li>
+        <li> A few multimodal efforts paired text and numbers (e.g. Time‑MMD, ForecastBench), but they either had very limited time‑series length, few data points, or were designed only for simple forecasting, not deeperreasoning tasks like causal inference or QA.</li>
+        <li>Existing benchmarks typically fixed the time‑series window and task complexity.</li>
+    </ul>
+
+</details>
+
+
 
 ## Rationale Behind Choices
 This section explains why specific models were chosen for this project.
