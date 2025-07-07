@@ -12,8 +12,8 @@
 This section explains why specific models were chosen for this project.
 
 Two open-source models were evaluated in the [MTBench](https://arxiv.org/pdf/2503.16858) paper: LLaMA 3.1 8B and DeepSeek-V3 (used in DeepSeek-Chat).
-1. **LLaMA 3.1 8B**: The paper used LLaMA in the bf16 format which is similar to fp32 in terms of dynamic range. I initially attempted to run the model in fp32 as the compute resources I had access to did not support bf16. Unfortunately, this exceeded the available memory. Switching to fp16 allowed the model to load, but resulted in a very low tokens per second which meant I would not be able to complete the experiments within my remaining compute time.
-2. **DeepSeek-V3**: This model has 671B parameters which makes it difficult to load on a non-GPU cluster.
+1. _LLaMA 3.1 8B_: The paper used LLaMA in the bf16 format which is similar to fp32 in terms of dynamic range. I initially attempted to run the model in fp32 as the compute resources I had access to did not support bf16. Unfortunately, this exceeded the available memory. Switching to fp16 allowed the model to load, but resulted in a very low tokens per second which meant I would not be able to complete the experiments within my remaining compute time.
+2. _DeepSeek-V3_: This model has 671B parameters which makes it difficult to load on a non-GPU cluster.
 
 
 As a result, I decided to use the following variants of the models:
@@ -23,6 +23,23 @@ As a result, I decided to use the following variants of the models:
 In effect, this project evalues This project evaluates smaller models on MTBench that claim to be similar in performance to their larger counterparts.
 
 ## Code Structure
+The files in the `src/` directory are a minimal rewrite of the original [MTBench codebase](https://github.com/Graph-and-Geometric-Learning/MTBench/tree/mainline), but for the financial domain.
+
+- `finance`
+    - `correlation_prediction.py`: Similar to the original code but includes extra arguments specific to the model (see `models/` for details).
+    - `mcqa.py`: Same as above.
+    - `meta_prompt.py`: Contains input prompts that are used only for financial tasks.
+    - `trend_classification.py`: Similar to the original code, with added model-specific arguments and modified data loading to support Parquet files.
+    - `value_prediction.py`: Same as above.
+- `models`
+    - `base_model.py`: Base class for all models.
+    - `deepseek_model.py`: DeepSeek model implementation.
+    - `llama_model.py`: LLaMA model implementation.
+    - `model_factory.py`: Factory class to create instances of models.
+- `utils.py`: Utility functions for data loading and evaluation.
+
+**NOTE**: The notebooks used for execution contain the code from `src/` pasted into a single file. On VMs, I would have run the code using the `src/` directory structure.
+
 
 
 ## Experiment Results
