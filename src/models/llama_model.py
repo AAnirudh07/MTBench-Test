@@ -7,7 +7,7 @@ class LLaMAModel(BaseModel):
             "text-generation",
             model=model_name,
             torch_dtype="auto",
-            device_map="cuda",
+            device_map="auto",
             **kwargs
         )
 
