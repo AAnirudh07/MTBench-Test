@@ -2,8 +2,6 @@ import os
 import json
 import numpy as np
 import matplotlib.pyplot as plt
-from collections import defaultdict
-from sklearn.linear_model import LinearRegression
 
 def format_time_difference(seconds):
     minutes = seconds // 60
