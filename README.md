@@ -8,6 +8,12 @@
 
 ## Paper Summary
 
+<details>
+    <summary>1. What are the authors trying to do (no jargon)?</summary>
+    A: The authors created a new test suite to benchmark how LLMs understand and reason when given both time‑series data (like stock prices or temperature readings) and the corresponding textual reports (financial news or weather summaries). They want to see if models can answer questions by jointly looking at numbers and words, rather than treating each separately. This is important as real-world events in text can influence these numerical trends and vice versa.
+</details>
+
+
 ## Rationale Behind Choices
 This section explains why specific models were chosen for this project.
 
