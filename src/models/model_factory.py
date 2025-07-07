@@ -6,7 +6,8 @@ class ModelFactory:
     def __init__(self, config: dict):
         self.config = config
 
-    def get_model(self, model_type: str, model_name: str, **kwargs) -> BaseModel:
+    @staticmethod
+    def get_model(model_type: str, model_name: str, **kwargs) -> BaseModel:
         if model_type == "deepseek":
             return DeepSeekModel(model_name=model_name, **kwargs)
         elif model_type == "llama":
