@@ -9,7 +9,20 @@
 ## Paper Summary
 
 ## Rationale Behind Choices
+This section explains why specific models were chosen for this project.
+
+Two open-source models were evaluated in the [MTBench](https://arxiv.org/pdf/2503.16858) paper: LLaMA 3.1 8B and DeepSeek-V3 (used in DeepSeek-Chat).
+1. **LLaMA 3.1 8B**: The paper used LLaMA in the bf16 format which is similar to fp32 in terms of dynamic range. I initially attempted to run the model in fp32 as the compute resources I had access to did not support bf16. Unfortunately, this exceeded the available memory. Switching to fp16 allowed the model to load, but resulted in a very low tokens per second which meant I would not be able to complete the experiments within my remaining compute time.
+2. **DeepSeek-V3**: This model has 671B parameters which makes it difficult to load on a non-GPU cluster.
+
+
+As a result, I decided to use the following variants of the models:
+1. **LlaMA 3.2 1B**: LLaMA 3.2 is built on the same core architecture as LLaMA 3.1 (difference is the addition of a vision adapter in LLaMA 3.2 for multimodal tasks). Thus, opted to use the 1B variant.
+2. **DeepSeek-R1 Distill Qwen-1.5B**: Unlike V3, it does not use a Mixture of Experts (MoE), but still shows strong reasoning and logical thinking ability.
+
+In effect, this project evalues This project evaluates smaller models on MTBench that claim to be similar in performance to their larger counterparts.
 
 ## Code Structure
+
 
 ## Experiment Results
