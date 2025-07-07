@@ -46,7 +46,7 @@ result_list = []
 tot_samples = len(data_list)
 print("Evaluating {} samples......".format(tot_samples))
 
-for idx, sample in enumerate(data_list):
+for idx, sample in tqdm(enumerate(data_list), total=tot_samples):
     designed_prompt = finance_mcqa_metaprompt_generation(
         setting=args.setting,
         sticker=sample["sticker"],
