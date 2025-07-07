@@ -48,7 +48,7 @@ with open(args.dataset_path) as file:
     }
     data_list.append(extracted_data)
 
-os.makedirs(Path(args.save_path).parent, exist_ok=True)
+os.makedirs(Path(args.save_path), exist_ok=True)
 
 model = ModelFactory.get_model(model_type=args.model_type, model_name=args.model)
 
