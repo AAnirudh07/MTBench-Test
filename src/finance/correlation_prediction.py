@@ -68,6 +68,7 @@ for idx, sample in tqdm(enumerate(data_list), total=tot_samples):
     )
     try:
         answer = model.inference(designed_prompt)
+        answer = answer.strip().replace('"', '')
         res = {
             "cnt": len(result_list),
             "filename": sample["filename"], 
