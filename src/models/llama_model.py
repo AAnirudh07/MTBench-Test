@@ -6,7 +6,8 @@ class LLaMAModel(BaseModel):
         self.pipeline = pipeline(
             "text-generation",
             model=model_name,
-            device_map="auto",
+            torch_dtype="auto",
+            device_map="cuda",
             **kwargs
         )
 
