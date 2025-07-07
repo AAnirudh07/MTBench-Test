@@ -13,5 +13,7 @@ class LLaMAModel(BaseModel):
 
     def inference(self, content: str) -> str:
         messages = [{"role": "user", "content": content}]
+
         outputs = self.pipeline(messages, max_new_tokens=1024)
+        
         return outputs[0]["generated_text"][-1]["content"]
