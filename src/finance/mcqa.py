@@ -20,13 +20,14 @@ parser.add_argument("--setting",  type=str, help="short or long")
 args = parser.parse_args()
 
 data_list = []
-with open(args.dataset_path) as file:
+json_file = Path(args.dataset_path)
+with open(json_file) as file:
     data = json.load(file)
-    sticker = args.dataset_path.name.split('_')[1].split('.')[0]
+    sticker = json_file.name.split('_')[1].split('.')[0]
     extracted_data = {
-        "filename": args.dataset_path.name,
+        "filename": json_file.name,
         "sticker": sticker,
-        "index": int(args.dataset_path.name.split('_')[0]),
+        "index": int(json_file.name.split('_')[0]),
         "input_timestamps": data.get("input_timestamps"),
         "input_window": data.get("input_window"),
         "output_timestamps": data.get("output_timestamps"),
