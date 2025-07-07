@@ -5,6 +5,7 @@ from datetime import datetime
 import sys
 # sys.path.append("../..")
 import os
+from tqdm import tqdm
 
 from meta_prompt import finance_correlation_metaprompt_generation
 from ..utils import save_to_json, calculate_correlation_acc
@@ -44,7 +45,7 @@ result_list = []
 tot_samples = len(data_list)
 print("Evaluating {} samples......".format(tot_samples))
 
-for idx, sample in enumerate(data_list): ### TQDM TTQDMM
+for idx, sample in tqdm(enumerate(data_list), total=tot_samples):
     designed_prompt = finance_correlation_metaprompt_generation(
         setting=args.setting,
         sticker=sample["sticker"],
