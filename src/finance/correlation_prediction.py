@@ -5,8 +5,8 @@ python src/finance/correlation_prediction.py \
 --dataset_path /path/to/dataset.json \
 --save_path /path/to/save/results \
 --model_type deepseek or llama \
---model author/model \
---setting short or longs
+--model author/model HuggingFace ID\
+--setting short or long
 """
 
 import argparse
