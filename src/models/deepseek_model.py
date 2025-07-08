@@ -27,10 +27,14 @@ class DeepSeekModel(BaseModel):
             **tokenized_input,
             max_new_tokens=4096,
         )
-        new_tokens = [
-            output[len(input_ids):]
-            for input_ids, output in zip(tokenized_input.input_ids, generated_output)
-        ]
-        outputs = self.tokenizer.batch_decode(new_tokens, skip_special_tokens=True)[0]
+        output_ids = generated_output[0][len(tokenized_input.input_ids[0]):].tolist() 
 
+        # parsing thinking content
+        try:
+            # rindex finding 151649 (</think>)
+            index = len(output_ids) - output_ids[::-1].index(151649)
+        except ValueError:
+            index = 0
+        outputs = self.tokenizer.decode(output_ids[index:], skip_special_tokens=True).strip("\n")
+        
         return outputs
