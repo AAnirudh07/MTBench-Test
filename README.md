@@ -25,6 +25,18 @@
 
 </details>
 
+<details>
+    <summary>3. What is new in their approach?</summary>
+    A: MTBench introduces a novel approach by comprising paired time-series and textual data across financial and weather domains:
+    <ul>
+        <li>Financial: Scraping over 200,000 financial news articles, curating a subset of 20,000 articles paired with corresponding stock price movements.</li>
+        <li>Weather: Using data from 50 US airports, with historical temperature records from 2003-2020 from the GHCN-H dataset, aligned with the Storm Events Database.</li>
+    </ul>
+    Beyond forecasting, it introduces semantic trend analysis, technical indicator prediction (e.g. MACD values), and news‑driven QA. The temporal granularity varies, with short-term (1-day) and long-term (7-day) intervals.
+
+</details>
+
+
 
 
 ## Rationale Behind Choices
