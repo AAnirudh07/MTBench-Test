@@ -7,6 +7,7 @@ import sys
 import os
 from tqdm import tqdm
 import pandas as pd
+import numpy as np
 
 from models.model_factory import ModelFactory
 from meta_prompt import finance_classification_metaprompt_generation, parse_cls_response
@@ -27,30 +28,53 @@ args = parser.parse_args()
 
 data_list = []
 df = pd.read_parquet(args.dataset_path)
+df["input_timestamps"] = df["input_timestamps"].apply(lambda x: x.tolist() if isinstance(x, np.ndarray) else x)
+df["input_window"] = df["input_window"].apply(lambda x: x.tolist() if isinstance(x, np.ndarray) else x)
+df["output_timestamps"] = df["output_timestamps"].apply(lambda x: x.tolist() if isinstance(x, np.ndarray) else x)
+df["output_window"] = df["output_window"].apply(lambda x: x.tolist() if isinstance(x, np.ndarray) else x)
+
+df["trend"] = df["trend"].apply(lambda x: json.loads(x) if isinstance(x, str) else x)
+df["text"] = df["text"].apply(lambda x: json.loads(x) if isinstance(x, str) else x)
+df["technical"] = df["technical"].apply(lambda x: json.loads(x) if isinstance(x, str) else x)
+
 filename = Path(args.dataset_path).name
-index = int(filename.split('_')[0]) if '_' in filename else 0
+index = 0 #int(filename.split('_')[0]) if '_' in filename else 0
 
+data_list = []
 for _, row in df.iterrows():
-    trend = row.get("trend", {})
-    text = row.get("text", {})
+    try:
+        trend = row["trend"]
+        text = row["text"]
+        technical = row["technical"]
 
-    if not isinstance(trend.get("output_bin_label"), str):
+        input_timestamps = row["input_timestamps"]
+        input_window = row["input_window"]
+        output_timestamps = row["output_timestamps"]
+        output_window = row["output_window"]
+        alignment = row["alignment"]
+
+        if not isinstance(trend.get("output_bin_label"), str):
+            continue
+
+        extracted_data = {
+            "filename": filename,
+            "index": index,
+            "input_timestamps": input_timestamps,
+            "input_window": input_window,
+            "output_timestamps": output_timestamps,
+            "output_window": output_window,
+            "percentage_change": trend.get("output_percentage_change"),
+            "bin_label": trend.get("output_bin_label"),
+            "text": text.get("content"),
+            "timestamp_ms": datetime.utcfromtimestamp(text.get("timestamp_ms", 0) / 1000)
+                if isinstance(text, dict) and "timestamp_ms" in text else None
+        }
+        data_list.append(extracted_data)
+
+    except (json.JSONDecodeError, TypeError, KeyError) as e:
+        print(f"Skipping row due to error: {e}")
         continue
-
-    extracted_data = {
-        "filename": filename,
-        "index": index,
-        "input_timestamps": row.get("input_timestamps"),
-        "input_window": row.get("input_window"),
-        "output_timestamps": row.get("output_timestamps"),
-        "output_window": row.get("output_window"),
-        "percentage_change": trend.get("output_percentage_change"),
-        "bin_label": trend.get("output_bin_label"),
-        "text": text.get("content"),
-        "timestamp_ms": datetime.utcfromtimestamp(text.get("timestamp_ms", 0) / 1000)
-            if isinstance(text, dict) and "timestamp_ms" in text else None
-    }
-    data_list.append(extracted_data)
+# print(data_list[0])
 
 os.makedirs(Path(args.save_path), exist_ok=True)
 
