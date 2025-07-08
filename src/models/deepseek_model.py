@@ -7,7 +7,7 @@ class DeepSeekModel(BaseModel):
         # The model is set in eval mode by default by using eval()
         # See: https://huggingface.co/docs/transformers/en/main_classes/model#transformers.PreTrainedModel
         self.model = AutoModelForCausalLM.from_pretrained(
-            model=model_name,
+            model_name,
             torch_dtype="auto", 
             device_map="auto",
             **kwargs
@@ -25,8 +25,7 @@ class DeepSeekModel(BaseModel):
         tokenized_input = self.tokenizer([chat_prompt], return_tensors="pt").to(self.model.device)
         generated_output = self.model.generate(
             **tokenized_input,
-            max_new_tokens=4096,
-            pad_token_id=self.tokenizer.eos_token_id
+            max_new_tokens=512,
         )
         new_tokens = [
             output[len(input_ids):]
