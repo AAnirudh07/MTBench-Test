@@ -25,7 +25,7 @@ class DeepSeekModel(BaseModel):
         tokenized_input = self.tokenizer([chat_prompt], return_tensors="pt").to(self.model.device)
         generated_output = self.model.generate(
             **tokenized_input,
-            max_new_tokens=512,
+            max_new_tokens=4096,
         )
         new_tokens = [
             output[len(input_ids):]
