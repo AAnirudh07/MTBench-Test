@@ -41,8 +41,19 @@
     A: The paper suggests that suggests current AI models perform better when using both text and time-series data together. However, they face challenges such as struggling with long-term temporal dependencies, causal reasoning, and always assuming a mildly positive correlation between text and time-series data.  
 </details>
 
+<details>
+    <summary>5. How do the authors evaluate their proposal? 
+</summary>
+    A: The authors run a suite of off-the-shelf LLMs measuring:
+    <ul>
+        <li><i>Forecasting</i>: MAE and MAPE of predicted vs. actual time‑series values, comparing TS‑only vs. TS + Text inputs.</li>
+        <li><i>Trend Prediction</i>: Accuracy in assigning correct trend bins (e.g., "–2 % to +2 %"), comparing TS-only vs. TS + Text inputs.</li>
+        <li><i>Techincal Indicator Prediction</i>: MSE of predicted vs. actual technical metrics like MACD, comparing TS-only vs. TS + Text inputs.</li>
+        <li><i>News-driven QA</i>: Multiple‑choice accuracy and correlation prediction scores on questions that require linking textual claims to numeric evidence.</li>
+    </ul>
 
 
+</details>
 
 
 ## Rationale Behind Choices
