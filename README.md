@@ -36,6 +36,12 @@
 
 </details>
 
+<details>
+    <summary>4. What impact does the new approach have?</summary>
+    A: The paper suggests that suggests current AI models perform better when using both text and time-series data together. However, they face challenges such as struggling with long-term temporal dependencies, causal reasoning, and always assuming a mildly positive correlation between text and time-series data.  
+</details>
+
+
 
 
 
