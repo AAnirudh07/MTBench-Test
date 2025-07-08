@@ -45,16 +45,23 @@ visualizations_path.mkdir(parents=True, exist_ok=True)
 data_list = []
 df = pd.read_parquet(args.dataset_path)
 filename = Path(args.dataset_path).name
+
+df["text"] = df["text"].apply(lambda x: json.loads(x) if isinstance(x, str) else x)
+df["technical"] = df["technical"].apply(lambda x: json.loads(x) if isinstance(x, str) else x)
+
+for col in ["input_window", "output_window", "input_timestamps"]:
+    df[col] = df[col].apply(lambda x: x.tolist() if isinstance(x, np.ndarray) else x)
+
 for _, row in df.iterrows():
-    text = row.get("text", {})
-    technical = row.get("technical", {})
+    text = row["text"]
+    technical = row["technical"]
 
     extracted_data = {
         "filename": filename,
-        "input_window": row.get("input_window"),
-        "output_window": row.get("output_window"),
-        "text": text.get("content"),
-        "input_timestamps": row.get("input_timestamps"),
+        "input_window": row["input_window"],
+        "output_window": row["output_window"],
+        "text": text["content"],
+        "input_timestamps": row["input_timestamps"],
         "in_macd": technical.get("in_macd"),
         "out_macd": technical.get("out_macd"),
         "in_upper_bb": technical.get("in_upper_bb"),
@@ -155,7 +162,7 @@ for idx, sample in tqdm(enumerate(data_list), total=tot_samples):
         mape = calculate_mape(output_ts, predict_ts)
         
         if args.indicator == "macd" and mse > 10:
-            print(f"{sample["filename"]} failed mse ", mse)
+            print(f"{sample['filename']} failed mse", mse)
             epoch_results.append({
                 "filename": sample["filename"],
                 "failed": True,
@@ -168,7 +175,7 @@ for idx, sample in tqdm(enumerate(data_list), total=tot_samples):
             continue
         
         if args.indicator == "time" and mse > 100:
-            print(f"{sample["filename"]} failed mse ", mse)
+            print(f"{sample['filename']} failed mse ", mse)
             epoch_results.append({
                 "filename": sample["filename"],
                 "failed": True,
