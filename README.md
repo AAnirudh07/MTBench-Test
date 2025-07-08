@@ -2,7 +2,7 @@
 
 - [Paper Summary](#paper-summary)
 - [Rationale Behind Choices](#rationale-behind-choices)
-- [Code Structure](#code-structure)
+- [Code Structure](#code-structure)s
 - [Experiment Results](#experiment-results)
 
 
@@ -83,7 +83,7 @@ The files in the `src/` directory are a minimal rewrite of the original [MTBench
     - `correlation_prediction.py`: Similar to the original code but includes extra arguments specific to the model (see `models/` for details).
     - `mcqa.py`: Same as above.
     - `meta_prompt.py`: Contains input prompts that are used only for financial tasks.
-    - `trend_classification.py`: Similar to the original code, with added model-specific arguments and modified data loading to support Parquet files.
+    - `trend_classification.py`: Similar to the original code, with added model-specific arguments and modified data loading to support Parquet files and converting data to the required format.
     - `value_prediction.py`: Same as above.
 - `models`
     - `base_model.py`: Base class for all models.
