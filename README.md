@@ -10,7 +10,7 @@
 
 <details>
     <summary>1. What are the authors trying to do (no jargon)?</summary>
-    A: The authors created a new test suite to benchmark how LLMs understand and reason when given both time‑series data (like stock prices or temperature readings) and the corresponding textual reports (financial news or weather summaries). They want to see if models can answer questions by jointly looking at numbers and words, rather than treating each separately. This is important as real-world events in text can influence these numerical trends and vice versa.
+    A: The authors created a new test suite to benchmark how LLMs understand and reason when given both time‑series data (like stock prices or temperature readings) and the corresponding textual reports (financial news or weather summaries). They want to see if models can answer questions by jointly looking at numbers and text, rather than treating each separately. This is important as real-world events in text can influence numerical trends and vice versa.
 </details>
 
 <details>
@@ -18,8 +18,8 @@
     A: 
     <ul>
         <li>Many benchmarks focused only on numerical forecasting but ignored any accompanying text.</li>
-        <li>Other datasets (e.g. FinanceBench, FinDABench) tested models on textual financial questions or news summarization without using the underlying numerical data.</li>
-        <li> A few multimodal efforts paired text and numbers (e.g. Time‑MMD, ForecastBench), but they either had very limited time‑series length, few data points, or were designed only for simple forecasting, not deeperreasoning tasks like causal inference or QA.</li>
+        <li>Other datasets (e.g. FinanceBench, FinDABench) tested models on textual financial questions without using the underlying numerical data.</li>
+        <li> A few multimodal efforts paired text and numbers (e.g. Time‑MMD, ForecastBench), but they either had very limited time‑series length, few data points, or were designed only for simple forecasting, not deeper reasoning tasks like causal inference or QA.</li>
         <li>Existing benchmarks typically fixed the time‑series window and task complexity.</li>
     </ul>
 
@@ -74,7 +74,7 @@ As a result, I decided to use the following variants of the models:
 
 Both models also have long context lengths.
 
-In effect, this project evalues This project evaluates smaller models on MTBench that claim to be similar in performance to their larger counterparts.
+In effect, this project evaluates smaller models on MTBench that claim to be similar in performance to their larger counterparts.
 
 ## Code Structure
 The files in the `src/` directory are a minimal rewrite of the original [MTBench codebase](https://github.com/Graph-and-Geometric-Learning/MTBench/tree/mainline), but for the financial domain.
@@ -102,7 +102,7 @@ The files in the `src/` directory are a minimal rewrite of the original [MTBench
 ## Experiment Results
 As discussed in the `Rationale Behind Choices` section, the DeepSeek model had a very slow inference speed. To stay within compute constraints, the number of evaluation samples for DeepSeek was reduced accordingly.
 
-The datasets and model checkpoints may be accessed [here](https://drive.google.com/drive/folders/1PeoN0CXGaLTgwNMd_Uv1W0JLfplZ6tJl?usp=sharing).
+The datasets and model outputs may be accessed [here](https://drive.google.com/drive/folders/1PeoN0CXGaLTgwNMd_Uv1W0JLfplZ6tJl?usp=sharing).
 
 The experiment runs may be accessed at `notebooks/`. If the "Invalid Notebook" error occurs on the GitHub UI, please access the notebooks [here](https://drive.google.com/drive/folders/18_XUCpVM6aUFtBaKmB7YcokjBveq21v8).
 
