@@ -2,7 +2,7 @@
 
 - [Paper Summary](#paper-summary)
 - [Rationale Behind Choices](#rationale-behind-choices)
-- [Code Structure](#code-structure)s
+- [Code Structure](#code-structure)
 - [Experiment Results](#experiment-results)
 
 
@@ -91,10 +91,57 @@ The files in the `src/` directory are a minimal rewrite of the original [MTBench
     - `llama_model.py`: LLaMA model implementation.
     - `qwen_model.py`: Qwen model implementation.
     - `model_factory.py`: Factory class to create instances of models.
+- `finetune_llama_tsforecast.py`: A basic first version of an untested script for finetuning LLaMA 3.2 1B on the time series forecasting task.
 - `utils.py`: Utility functions for data loading and evaluation.
+
 
 **NOTE**: The notebooks used for execution contain the code from `src/` pasted into a single file. On VMs, I would have run the code using the `src/` directory structure.
 
 
 
 ## Experiment Results
+As discussed in the `Rationale Behind Choices` section, the DeepSeek model had a very slow inference speed. To stay within compute constraints, the number of evaluation samples for DeepSeek was reduced accordingly.
+
+The datasets and model checkpoints may be accessed [here](https://drive.google.com/drive/folders/1PeoN0CXGaLTgwNMd_Uv1W0JLfplZ6tJl?usp=sharing).
+
+The experiment runs may be accessed at `notebooks/`. If the "Invalid Notebook" error occurs on the GitHub UI, please access the notebooks [here](https://drive.google.com/drive/folders/18_XUCpVM6aUFtBaKmB7YcokjBveq21v8).
+
+#### News-stock Correlation
+All numbers are percentages. 
+- LlaMA 3.2 1B: Full dataset used.
+- DeepSeek-R1 Distill Qwen-1.5B: 100 samples for 7-day and 150 samples for 30-day datasets.
+
+| Model     | 7-Day brief | 7-Day exact | 30-Day brief | 30-Day exact |
+|-----------|-------------|-------------|--------------|--------------|
+| LLaMA 3.2 1B | 9.0            |   3.69          | 6.51            |  3.68            |
+| DeepSeek-R1 Distill Qwen-1.5B |  **34.41**          |  **10.75**          | **31.91**             | **17.02**             |
+
+
+_Observation_: DeepSeek performs better than LLaMA likely due to stronger instruction tuning and reasoning capabilities, which help it better interpret the relationship between news content and stock movement. As in the paper, the performance slightly degraded on the 30-day dataset.
+
+#### News-driven MCQA
+All numbers are percentages. 
+- LlaMA 3.2 1B: Full dataset used.
+- DeepSeek-R1 Distill Qwen-1.5B: 100 samples for 7-day and 150 samples for 30-day datasets.
+
+| Model     | 7-Day Acc | 30-Day Acc |  
+|-----------|----------------|----------------
+| LLaMA 3.2 1B |  33.83              | 31.08               |                  
+| DeepSeek-R1 Distill Qwen-1.5B  |  **47.31**              |     **36.88**           |                  
+
+_Observation_: DeepSeek shows higher accuracy than LLaMA on both 7-day and 30-day MCQA tasks. This is likely due to the same reasons mentioned in the previous section.
+
+#### Time-Series Forecasting
+- LlaMA 3.2 1B: 150 samples for time-series only. 100 samples for time-series + text (both 7-day and 30-day). 
+- DeepSeek-R1 Distill Qwen-1.5B: Processing each sample took over 6 minutes on average. Running the full dataset would have required reducing the sample size significantly which would affect evaluation quality. Additionally, only had very little compute time left.
+
+
+Table: Forecast with LlaMA 3.2 1B (TS vs. w/ Text)
+
+|                        | MAE (TS) | MAE (w/ Text) | MAPE (TS) | MAPE (w/ Text) |
+|-----------------------------|----------|---------------|-----------|----------------|
+|     7-Day| 2.40         |    **2.23**           | 6.01              |     **5.88**               |
+| 30-Day | **3.02**        |  3.09              | 12.12              |  **8.21**          |     
+
+
+_Observation_: One thing to note is that a significat portion of samples produced very high MSE values and were excluded from the cumulative results.
