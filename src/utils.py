@@ -41,7 +41,11 @@ def plot_series(filename, input_ts, output_ts, predicted_ts, save_folder):
     plt.xlabel("Time Steps")
     plt.ylabel("Value")
     plt.grid()
-    plt.savefig(os.path.join(save_folder, filename.replace('.json', '.png')))
+
+    base_name = os.path.splitext(filename)[0]
+    save_path = os.path.join(save_folder, base_name + ".png")
+    plt.savefig(save_path)
+    
     plt.close()
 
 def calculate_mape(y_true, y_pred):
